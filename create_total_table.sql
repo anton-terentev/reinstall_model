@@ -58,6 +58,19 @@ select
     *,
     're-engagement' as reinstall_type
 from
-    ma_data.magazov_reengagements_with_attribution) as x) as y
+    ma_data.magazov_reengagements_with_attribution
+union all
+select
+    app_short,
+    user_id,
+    install_date,
+    install_time,
+    country_code,
+    media_source,
+    last_active,
+    're-engagement' as reinstall_type
+from
+    ma_data.terentev_reengagement_fb_gp
+) as x) as y
 where
     num = 1);
