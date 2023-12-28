@@ -29,7 +29,7 @@ select distinct
     *,
     nvl(lead(install_time) over (partition by user_id, app_short order by install_time), current_date) as switch_date,
     row_number() over (partition by app_short, user_id, install_date order by install_time) num
-from(
+from (
 select
     app_short,
     user_id,
@@ -52,10 +52,12 @@ select
     *,
     'lost' as reinstall_type
 from
-    ma_data.terentev_reinstalls_lost) as x) as y
+    ma_data.terentev_reinstalls_lost
+union all
+select
+    *,
+    're-engagement' as reinstall_type
+from
+    ma_data.magazov_reengagements_with_attribution) as x) as y
 where
     num = 1);
-
-
-
-
